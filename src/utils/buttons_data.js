@@ -82,7 +82,7 @@ const BUTTONS_DATA = [
   },
   {
     id: 17,
-    children: "↻",
+    children: "CE",
     className: "text-white",
   },
   {

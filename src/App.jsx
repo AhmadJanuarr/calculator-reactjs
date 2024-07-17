@@ -1,37 +1,26 @@
 import ButtonsPanel from "./components/ButtonsPanel";
 import DarkMode from "./components/DarkMode";
 import DisplayCalculator from "./components/Display";
-import BUTTONS_DATA from "./utils/buttons_data";
-import Buttons from "./components/Buttons/index";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 
 export default function App() {
-  const [display, setDisplay] = useState(0);
-  const handleButton = (e) => {
-    const value = e.target.textContent;
+  const [display, setDisplay] = useState("0");
 
-    if (
-      value === "1" ||
-      value === "2" ||
-      value === "3" ||
-      value === "4" ||
-      value === "5" ||
-      value === "6" ||
-      value === "7" ||
-      value === "8" ||
-      value === "9" ||
-      value === "0"
-    ) {
-      setDisplay(display + value);
+  const handleButton = (e) => {
+    if (e === "AC") {
+      setDisplay("0");
+    } else if (e === "CE") {
+      setDisplay((current) => current.slice(0, -1));
+    } else if (e === "=") {
+      setDisplay((current) => eval(current));
+    } else {
+      setDisplay((current) => (current == "0" ? e : current + e));
     }
   };
 
-  useEffect(() => {
-    console.log(display);
-  }, [display]);
-
   const styled = {
-    width: "320px",
+    width: "330px",
     height: "630px",
   };
   return (
@@ -44,18 +33,7 @@ export default function App() {
           <DarkMode />
           <DisplayCalculator>{display}</DisplayCalculator>
         </div>
-        <ButtonsPanel>
-          {BUTTONS_DATA.length &&
-            BUTTONS_DATA.map((button) => (
-              <Buttons
-                key={button.id}
-                variants={button.className}
-                onClick={handleButton}
-              >
-                {button.children}
-              </Buttons>
-            ))}{" "}
-        </ButtonsPanel>
+        <ButtonsPanel handleButton={handleButton} />
       </div>
     </div>
   );
